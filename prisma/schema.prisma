@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  refreshToken  String?
+  id                String    @id @default(uuid())
+  email             String    @unique
+  googleRefreshToken String?
   discordWebhookUrl String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  campaigns     Campaign[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  campaigns         Campaign[]
 }
 
 model Campaign {
