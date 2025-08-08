@@ -12,6 +12,14 @@ export default function Dashboard() {
             if (!session) {
                 router.push('/login');
             } else {
+                // Save googleRefreshToken if not present
+                const saveGoogleRefreshToken = async () => {
+                    const { data: userData } = await supabase.from('users').select('googleRefreshToken').eq('id', session.user.id).single();
+                    if (!userData.googleRefreshToken && session.provider_refresh_token) {
+                        await supabase.from('users').update({ googleRefreshToken: session.provider_refresh_token }).eq('id', session.user.id);
+                    }
+                };
+                saveGoogleRefreshToken();
                 fetchCampaigns();
             }
         });
