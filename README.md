@@ -1,40 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Email Scheduler Web Application
 
-## Getting Started
+A professional-grade, human-like email automation platform that sends personalized emails from CSV/Excel while randomizing send times, varying content, and tracking results — **without bot-like fingerprints**.
 
-First, run the development server:
+## About
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project builds an **intelligent email scheduling and personalization system** designed to:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Replace unprofessional “automation stamps” like n8n’s footer.
+* Reduce spam-flag risks through timing randomness, content variation, and gradual sending.
+* Update recipient status dynamically in the source sheet.
+* Support research-driven deliverability optimization.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+> Target audience: freelancers, agencies, marketers, and researchers looking for **high-deliverability personalized outreach**.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<br>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Execution Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Phase 1 – Core MVP (Weeks 1–2)
 
-## Learn More
+**Focus:** A working end-to-end system without automation footprints.
 
-To learn more about Next.js, take a look at the following resources:
+* **Input Processing:** Upload & validate CSV/Excel, normalize columns.
+* **Mail Personalization:** Support placeholders like `[name]`, `[company]`, `[video_name]`, with multiple template variants.
+* **Randomized Scheduling:** 1 mail/hour at a random minute; queue-based execution.
+* **Sending:** Gmail API/SMTP (OAuth2), proper `From` and `Reply-To`.
+* **Tracking:** Live status updates (`SENT` / `FAILED`) written back to CSV.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+<br>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Phase 2 – Anti-Spam & Deliverability Boost (Weeks 3–4)
 
-## Deploy on Vercel
+**Focus:** Move beyond a script into research-worthy territory.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* **Content Variation Engine:** Synonym swap, sentence shuffle, LLM paraphrasing.
+* **Smart Cadence:** Human-like gaps, warm-up mode for new accounts.
+* **Email Health Monitoring:** Open rate, CTR, bounce tracking.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+<br>
+
+### Phase 3 – Full Web App (Weeks 4–6)
+
+**Focus:** Client-facing professional tool.
+
+**Frontend (React + Tailwind)**
+
+* File upload & mapping UI.
+* Template manager with previews & test sends.
+* Dashboard for queue, logs, analytics.
+
+**Backend (FastAPI / Node.js)**
+
+* Template parser.
+* Email scheduler & queue.
+* API endpoints for upload, campaign control, export.
+
+**Infra**
+
+* Dockerized, CI/CD integrated, deployed on free-tier hosting.
+* Background job workers for send scheduling.
+
+<br>
+
+### Phase 4 – Research & Paper (Weeks 6–8)
+
+**Potential Topics:**
+
+* Impact of send-time jitter on deliverability.
+* Effect of template diversity on spam detection.
+* Human behavior simulation for outreach.
+* Optimal account rotation strategies.
+
+**Data Collection:** Open/click rates, spam scores, bounce rates — ready for statistical analysis.
+
+<br>
+
+## Extra Enhancements
+
+* Multi-provider support (Gmail, Outlook, SMTP).
+* Auto-retry failed sends in the next slot.
+* Spam score checker before sending.
+
+<br>
+
+## Tech Stack
+
+* **Frontend:** Next.js / React + TailwindCSS
+* **Backend:** FastAPI (Python) or Node.js (Express)
+* **Queue/Scheduler:** Redis + BullMQ / Celery
+* **Email Providers:** Gmail API (OAuth2), SMTP, transactional APIs
+* **Deployment:** Docker + CI/CD → Render / Railway / Cloud Run
+
+<br>
+
+## Research Impact
+
+By combining engineering with measured deliverability experiments, this project can form the basis for:
+
+* Conference papers.
+* Portfolio showcase for engineering judgment.
+* A production-ready SaaS.
