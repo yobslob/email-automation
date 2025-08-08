@@ -54,3 +54,4 @@ Thumbs.db
 
 # Yarn PnP
 .pnp.*
+/lib/generated/prisma
