@@ -1,11 +1,7 @@
+// pages/new-campaign.js
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
-import { getSheetColumns, getSheetData } from '../lib/sheets';
-import { PrismaClient } from '@prisma/client';
-import Queue from 'bull';
-
-const prisma = new PrismaClient();
-const emailQueue = new Queue('email sends', process.env.REDIS_URL);
+import { supabase } from '../lib/supabase.js';
+import Link from 'next/link';
 
 export default function NewCampaign() {
     const [sheetId, setSheetId] = useState('');
@@ -13,79 +9,112 @@ export default function NewCampaign() {
     const [mapping, setMapping] = useState({});
     const [name, setName] = useState('');
     const [startTime, setStartTime] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleFetchColumns = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            alert('Please log in');
-            return;
-        }
+    async function handleFetchColumns() {
         try {
-            const cols = await getSheetColumns(session.provider_token, sheetId);
-            setColumns(cols);
-        } catch (error) {
-            alert('Failed to fetch columns');
-        }
-    };
-
-    const handleMappingChange = (field, column) => {
-        setMapping({ ...mapping, [field]: column });
-    };
-
-    const handleCreateCampaign = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            alert('Please log in');
-            return;
-        }
-        const userId = session.user.id;
-        const campaign = await prisma.campaign.create({
-            data: {
-                userId,
-                name,
-                sheetType: 'google',
-                sheetId,
-                columnMapping: mapping,
-                status: 'pending',
-                startTime: new Date(startTime),
-            },
-        });
-
-        // Fetch sheet data and create recipients
-        const rows = await getSheetData(session.provider_token, sheetId);
-        const startTimeDate = new Date(startTime);
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const data = {
-                Name: row[columnToIndex(mapping.Name)],
-                Email: row[columnToIndex(mapping.Email)],
-                PrimaryPlatform: row[columnToIndex(mapping.PrimaryPlatform)],
-                SecondaryPlatform: row[columnToIndex(mapping.SecondaryPlatform)],
-                LessSubs: row[columnToIndex(mapping.LessSubs)],
-                VideoName: row[columnToIndex(mapping.VideoName)],
-            };
-            const sendTime = new Date(startTimeDate);
-            sendTime.setHours(startTimeDate.getHours() + i);
-            sendTime.setMinutes(Math.floor(Math.random() * 60));
-            const recipient = await prisma.recipient.create({
-                data: {
-                    campaignId: campaign.id,
-                    rowIndex: i + 2,
-                    data,
-                    status: 'pending',
-                    sendTime,
-                },
-            });
-            const delay = sendTime.getTime() - Date.now();
-            if (delay > 0) {
-                await emailQueue.add(
-                    { recipientId: recipient.id, userId },
-                    { attempts: 3, backoff: { type: 'exponential', delay: 3600000 } }
-                );
+            const { data: { session } } = await supabase.auth.getSession();
+            console.log('session:', session);
+            if (session.provider_refresh_token) {
+                await fetch('/api/auth/save-refresh-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: session.user.id,
+                        refreshToken: session.provider_refresh_token
+                    })
+                });
             }
+
+            if (!session) {
+                alert('Please sign in first');
+                return;
+            }
+
+            // provider_token may be missing; send userId so server can fall back to refresh token.
+            const token = session.provider_token || null;
+            const userId = session.user?.id || null;
+
+            // Use a clear variable name to avoid collisions with "res" used elsewhere.
+            const response = await fetch('/api/sheets/columns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accessToken: token, sheetId, userId }),
+            });
+
+            let payload = null;
+            // Safely parse JSON (guard against non-json responses)
+            try {
+                payload = await response.json();
+            } catch (parseErr) {
+                console.error('Failed to parse JSON from /api/sheets/columns:', parseErr);
+            }
+
+            if (!response.ok) {
+                const errMsg = (payload && (payload.error || payload.message)) || `HTTP ${response.status}`;
+                throw new Error(errMsg);
+            }
+
+            setColumns(Array.isArray(payload.columns) ? payload.columns : []);
+        } catch (err) {
+            console.error('Failed to fetch columns', err);
+            alert('Failed to fetch columns. See console for details.');
         }
-        alert('Campaign created and scheduled');
-    };
+    }
+
+
+    function handleMappingChange(field, column) {
+        setMapping((m) => ({ ...m, [field]: column }));
+    }
+
+    async function handleCreateCampaign() {
+        setLoading(true);
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                alert('Please login first');
+                setLoading(false);
+                return;
+            }
+            const token = session.provider_token || null;
+            const userId = session.user?.id || null;
+
+            const payload = {
+                name,
+                sheetId,
+                mapping,
+                startTime,
+                provider_token: token,
+                userId, // pass userId so server can use stored refresh token if needed
+            };
+
+            const response = await fetch('/api/campaigns/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            let body = null;
+            try {
+                body = await response.json();
+            } catch (parseErr) {
+                console.error('Failed to parse JSON from /api/campaigns/create:', parseErr);
+            }
+
+            if (!response.ok) {
+                console.error('Create campaign error', body);
+                alert('Failed to create campaign: ' + (body?.error || 'server error'));
+            } else {
+                alert('Campaign created and scheduled');
+            }
+        } catch (err) {
+            console.error('handleCreateCampaign error', err);
+            alert('Error creating campaign - check console');
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     function columnToIndex(col) {
         return col.charCodeAt(0) - 65;
@@ -118,6 +147,7 @@ export default function NewCampaign() {
                     Fetch Columns
                 </button>
             </div>
+
             {columns.length > 0 && (
                 <div>
                     <h2 className="text-xl mb-2">Map Columns</h2>
@@ -137,6 +167,7 @@ export default function NewCampaign() {
                             </select>
                         </div>
                     ))}
+
                     <div className="mb-4">
                         <label>Start Time</label>
                         <input
@@ -146,14 +177,20 @@ export default function NewCampaign() {
                             className="border p-2 w-full"
                         />
                     </div>
+
                     <button
                         onClick={handleCreateCampaign}
+                        disabled={loading}
                         className="bg-green-500 text-white px-4 py-2 rounded"
                     >
-                        Create Campaign
+                        {loading ? 'Creating...' : 'Create Campaign'}
                     </button>
                 </div>
             )}
+
+            <div className="mt-6">
+                <Link href="/dashboard" className="text-blue-600">Back to Dashboard</Link>
+            </div>
         </div>
     );
 }

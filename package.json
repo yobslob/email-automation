@@ -2,6 +2,7 @@
   "name": "email-automation",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -15,8 +16,9 @@
     "axios": "^1.11.0",
     "bull": "^4.16.5",
     "google-auth-library": "^10.2.1",
-    "googleapis": "^155.0.0",
+    "googleapis": "^155.0.1",
     "next": "15.4.6",
+    "node-fetch": "^3.3.2",
     "prisma": "^6.13.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"

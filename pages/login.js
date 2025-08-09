@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabase.js';
 
 export default function Login() {
     const router = useRouter();
@@ -18,7 +18,12 @@ export default function Login() {
             provider: 'google',
             options: {
                 scopes: 'https://www.googleapis.com/auth/spreadsheets',
-            },
+                redirectTo: `${window.location.origin}/auth/callback`,
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'consent'
+                }
+            }
         });
     };
 
