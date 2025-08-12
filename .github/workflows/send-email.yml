@@ -1,5 +1,8 @@
 name: Send one scheduled email
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # 24 runs/day at random minutes in IST (converted to UTC)
