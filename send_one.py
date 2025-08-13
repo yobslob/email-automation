@@ -15,7 +15,7 @@ def main():
     mailer = SMTPMailer()
     mail_content = GetMailContent()
     body = mail_content.get_content(lead)
-    subject = f"Quick Question, {lead.get('Name','')}"
+    subject = f"{lead.get('Name', '')} doesn't deserve {lead.get('LessSubs', '')} followers."
     try:
         mailer.send(lead['Email'], subject, body)
         csv.update_status(lead['Email'], 'SENT')
