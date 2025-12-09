@@ -1,10 +1,10 @@
-Hey {FirstName},<br><br>
+Hey {Name},<br><br>
 
 {Compliment}<br><br>
 
 <strong>My CONCERN?</strong><br><br>
 
-There’s a lot of untapped potential to improve your <strong>DISCOVERABILITY</strong> and the overall experience of your podcast for your audience, which naturally increases views as well.<br><br>
+There’s so much left to improve your <strong>DISCOVERABILITY</strong> and the overall experience of your podcast for your audience, which naturally increases views as well.<br><br>
 
 <strong>People we’ve worked with:</strong><br>
 <ul>
