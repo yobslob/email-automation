@@ -1,8 +1,8 @@
 Hey {Name},<br><br>
 
-{Compliment}<br><br>
+{Compliment}<br>
 
-My CONCERN?<br><br>
+My CONCERN?<br>
 
 There’s so much that can be done to improve your <i>DISCOVERABILITY</i> and the experience of your podcast for your audience, increasing the views as well.<br><br>
 
@@ -14,14 +14,15 @@ People we’ve worked with:<br>
 
 Here’s what we actually do:<br>
 <ul>
-<li>Pre-production: content ideation, research & scriptwriting.</li>
-<li>Post-production: Premiere Pro + After Effects editing, audio engineering, trailers, captioning, and Photoshop thumbnails (A/B tests).</li>
-<li>Distribution: publish 4–6 Reels/week on Instagram (same cuts to TikTok & YouTube Shorts), 2–4 Stories/week, repurposing.</li>
+<li>Pre-production: content ideation, research & scriptwriting.</li><br>
+<li>Post-production: Premiere Pro + After Effects editing, audio engineering, trailers, captioning, and Photoshop thumbnails (A/B tests).</li><br>
+<li>Distribution: publish 4–6 Reels/week on Instagram (same cuts to TikTok & YouTube Shorts), 2–4 Stories/week, repurposing.</li><br>
 </ul>
 
-By the way, here’s what we've done yet: <a href="https://binary-growth.vercel.app/" target="_blank">Binary Growth</a>.<br><br>
+By the way, here’s what we've done yet: <a href="https://binary-growth.vercel.app/" target="_blank">Binary Growth</a><br>
 
-We’ve also worked with industry leaders like <a href="https://www.youtube.com/@primaryventurepartners" target="_blank">Primary Venture Partners</a>, <a href="https://www.youtube.com/@KleinerPerkinsVideos" target="_blank">Kleiner Perkins</a>, and <a href="https://www.youtube.com/@georgebandarian" target="_blank">George Bandarian</a>.<br><br>
+We’ve also worked with industry leaders like <a href="https://www.youtube.com/@primaryventurepartners" target="_blank">Primary Venture Partners</a>,
+<a href="https://www.youtube.com/@KleinerPerkinsVideos" target="_blank">Kleiner Perkins</a>, and <a href="https://www.youtube.com/@georgebandarian" target="_blank">George Bandarian</a>.<br><br>
 
 Let me know if you want more <a href="https://calendly.com/yogeshxiix/30min" target="_blank">info!</a>.<br><br>
 
