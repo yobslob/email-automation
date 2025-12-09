@@ -1,10 +1,6 @@
 Hey {Name},<br><br>
 
-{Compliment}<br>
-
-My CONCERN?<br>
-
-There’s honestly so much you could be doing to improve your <i>DISCOVERABILITY</i> and your podcast’s viewing experience, which directly helps boost the views too.<br><br>
+{Compliment}<br><br>My CONCERN?<br><br>There’s honestly so much you could be doing to improve your <i>DISCOVERABILITY</i> and your podcast’s viewing experience, which directly helps boost the views too.<br><br>
 
 People we’ve worked with:<br>
 <ul>
