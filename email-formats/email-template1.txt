@@ -1,17 +1,11 @@
 Hey {Name},<br><br>
 
-{Compliment}<br>
-
-My CONCERN?<br>
-
-There’s so much that can be done to improve your <i>DISCOVERABILITY</i> and the experience of your podcast for your audience, increasing the views as well.<br><br>
-
+{Compliment}<br><br>My CONCERN?<br><br>There’s so much that can be done to improve your <i>DISCOVERABILITY</i> and the experience of your podcast for your audience, increasing the views as well.<br><br>
 People we’ve worked with:<br>
 <ul>
 <li> <a href="https://drive.google.com/file/d/1Qv2SCIepn2GYjNCeQ8aFtbbi5pVVhIxK/view?usp=drive_link" target="_blank">Alec Burcham</a></li><br>
 <li> <a href="https://drive.google.com/file/d/10CogodSIchgnznzhcBtPLBM7kipdLZ44/view?usp=drive_link" target="_blank">Ankit Arora</a></li>
 </ul>
-
 Here’s what we actually do:<br>
 <ul>
 <li>Pre-production: content ideation, research & scriptwriting.</li><br>
