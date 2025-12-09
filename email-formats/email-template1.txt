@@ -1,4 +1,4 @@
-Hey {FirstName},<br><br>
+Hey {Name},<br><br>
 
 {Compliment}<br><br>
 
