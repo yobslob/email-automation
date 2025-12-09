@@ -1,11 +1,6 @@
 Hey {Name},<br><br>
 
-{Compliment}<br>
-
-AND My CONCERN?<br>
-
-There’s so much left to improve your <i>DISCOVERABILITY</i> and the overall experience of your podcast for your audience, which naturally increases views as well.<br><br>
-
+{Compliment}<br><br>AND My CONCERN?<br><br>There’s so much left to improve your <i>DISCOVERABILITY</i> and the overall experience of your podcast for your audience, which naturally increases views as well.<br><br>
 People we’ve worked with:<br>
 <ul>
 <li> <a href="https://drive.google.com/file/d/1Qv2SCIepn2GYjNCeQ8aFtbbi5pVVhIxK/view?usp=drive_link" target="_blank">Alec Burcham</a></li><br>
