@@ -110,22 +110,23 @@ class SendMail:
             'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()
         }
 
-def send_message(self, message, thread_id=None):
-    try:
-        body = {"raw": message}
+    def send_message(self, message, thread_id=None):
+        try:
+            raw_value = message.get('raw') if isinstance(message, dict) else message
+            body = {"raw": raw_value}
 
-        # 👇 THIS is what enables Gmail threading
-        if thread_id:
-            body["threadId"] = thread_id
+            # 👇 THIS is what enables Gmail threading
+            if thread_id:
+                body["threadId"] = thread_id
 
-        sent = self.service.users().messages().send(
-            userId='me',
-            body=body
-        ).execute()
+            sent = self.service.users().messages().send(
+                userId='me',
+                body=body
+            ).execute()
 
-        print("Message sent:", sent["id"], "Thread:", sent["threadId"])
-        return sent
+            print("Message sent:", sent.get("id"), "Thread:", sent.get("threadId"))
+            return sent
 
-    except Exception as e:
-        print("Send failed:", e)
-        return None
+        except Exception as e:
+            print("Send failed:", e)
+            return None
