@@ -1,15 +1,12 @@
 import os
 import random
 import base64
-import logging
 from email.mime.text import MIMEText
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
-
-logger = logging.getLogger(__name__)
 
 
 # ---------------------- TEMPLATE ENGINE ----------------------
@@ -113,34 +110,22 @@ class SendMail:
             'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()
         }
 
-    def send_message(self, message, thread_id=None):
-        try:
-            if not isinstance(message, dict):
-                raise ValueError("message must be a dict containing a base64-encoded 'raw' key (e.g., from create_message)")
+def send_message(self, message, thread_id=None):
+    try:
+        body = {"raw": message}
 
-            raw_value = message.get('raw')
-            if raw_value is None or raw_value == '':
-                raise ValueError("raw message payload is required")
+        # 👇 THIS is what enables Gmail threading
+        if thread_id:
+            body["threadId"] = thread_id
 
-            body = {"raw": raw_value}
+        sent = self.service.users().messages().send(
+            userId='me',
+            body=body
+        ).execute()
 
-            # 👇 THIS is what enables Gmail threading
-            if thread_id:
-                body["threadId"] = thread_id
+        print("Message sent:", sent["id"], "Thread:", sent["threadId"])
+        return sent
 
-            sent = self.service.users().messages().send(
-                userId='me',
-                body=body
-            ).execute()
-
-            message_id = sent.get("id")
-            thread_identifier = sent.get("threadId")
-            if message_id is None:
-                logger.warning("Gmail send response missing id: %s", sent)
-            else:
-                logger.info("Message sent: %s Thread: %s", message_id, thread_identifier)
-            return sent
-
-        except Exception as e:
-            logger.error("Send failed: %s", e)
-            return None
+    except Exception as e:
+        print("Send failed:", e)
+        return None
