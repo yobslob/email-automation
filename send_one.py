@@ -29,7 +29,7 @@ def build_subject(lead, kind):
 
 def main():
     csv = CSVHandler('leads.csv')
-    mail_content = GetMailContent(base_folder='email-templates')
+    mail_content = GetMailContent(base_folder='email-formats')
     mailer = SMTPMailer()
 
     state = load_state()

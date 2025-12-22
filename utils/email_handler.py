@@ -12,7 +12,7 @@ from google.auth.transport.requests import Request
 # ---------------------- TEMPLATE ENGINE ----------------------
 
 class GetMailContent:
-    def __init__(self, base_folder='email-templates'):
+    def __init__(self, base_folder='email-formats'):
         self.base_folder = base_folder
 
     def get_content(self, lead: dict, kind: str, template_file=None):
