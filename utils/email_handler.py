@@ -12,22 +12,29 @@ from google.auth.transport.requests import Request
 # ---------------------- TEMPLATE ENGINE ----------------------
 
 class GetMailContent:
-    def __init__(self, template_folder='email-formats'):
-        self.template_folder = template_folder
-        self.templates = os.listdir(template_folder)
+    def __init__(self, base_folder='email-templates'):
+        self.base_folder = base_folder
 
-    def get_content(self, lead: dict, template_file=None):
-        chosen_template = template_file or random.choice(self.templates)
+    def get_content(self, lead: dict, kind: str, template_file=None):
+        folder = os.path.join(self.base_folder, kind)
+        if template_file:
+            chosen = template_file
+        else:
+            templates = [
+                t for t in os.listdir(folder)
+                if os.path.isfile(os.path.join(folder, t))
+            ]
+            if not templates:
+                raise FileNotFoundError(f"No templates in {folder}")
+            chosen = random.choice(templates)
 
-        with open(os.path.join(self.template_folder, chosen_template), 'r', encoding='utf-8') as f:
+        with open(os.path.join(folder, chosen), 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Replace {placeholders}
         for key, value in lead.items():
             content = content.replace(f'{{{key}}}', '' if value is None else str(value))
 
         return content
-
 
 # ---------------------- GMAIL SENDER ----------------------
 
